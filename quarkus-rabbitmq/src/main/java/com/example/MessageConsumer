@@ -1,0 +1,26 @@
+import javax.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+
+import io.quarkus.mailer.Mail;
+import io.quarkus.mailer.Mailer;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+@ApplicationScoped
+public class MessageConsumer {
+
+    @Inject Mailer mailer;                                              
+
+
+    @Incoming("email-queue")
+    public void sendEmail(String email) {
+        mailer.send(
+                Mail.withText(email,                     
+                    "Menaces",
+                    "Je connais ton identité."
+                )
+        );  
+    }
+}

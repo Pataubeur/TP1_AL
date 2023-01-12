@@ -1,0 +1,55 @@
+<app-nav></app-nav>
+
+<!--<div *ngIf="dataSource==null">
+    Error
+</div>-->
+
+
+<body> 
+    <div *ngIf="notExisting">
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center align-items-center ">
+                    <h1 class="fw-bold text-uppercase title_color" style="margin-top: 300px">No association with this ID !</h1>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+<div *ngIf="dataSourceAsso!=null">
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center ">
+
+                <div class="split left">
+                    <div class="centered">
+                        <div class="card bg-dark text-white" style="border-radius: 2rem;">
+                            <div class="card-body p-5 text-center">
+                                <img src="./../../assets/association.png" alt="Avatar" width="500"
+                                    style="margin-bottom: 30px;">
+                                <header class="fw-bold text-uppercase user_sample" *ngIf="dataSourceAsso!=null">
+                                    Association ID : {{dataSourceAsso.id}}
+                                </header>
+
+                                <div>
+                                    <div class="fw-bold parameter_sample">
+                                        Name : {{dataSourceAsso.name}}
+                                    </div>
+
+                                    <div class="fw-bold parameter_sample">
+                                        Members :
+                                        <div *ngFor="let item of userInAssociation">
+                                            {{item.lastname}} {{item.firstname}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>

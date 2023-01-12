@@ -1,0 +1,80 @@
+<app-nav style="z-index:100"></app-nav>
+
+<!--<div *ngIf="dataSource==null">
+    Error
+</div>
+-->
+
+
+<body *ngIf="dataSource!=null">
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+
+                <section class="split left">
+                    <div class="centered">
+                        <div class="card bg-dark text-white" style="border-radius: 2rem;">
+                            <div class="card-body p-5 text-center">
+
+
+                                <img src="./../../assets/user_base.png" alt="Avatar" width="500"
+                                    style="margin-bottom: 30px;">
+                                <header class="fw-bold text-uppercase user_sample" *ngIf="dataSource!=null">
+                                    User ID : {{dataSource.id}}
+                                </header>
+
+                                <div>
+                                    <div class="fw-bold parameter_sample">
+                                        Lastname : {{dataSource.lastname}}
+                                    </div>
+
+                                    <div class="fw-bold parameter_sample">
+                                        Firstname : {{dataSource.firstname}}
+                                    </div>
+
+                                    <div class="fw-bold parameter_sample">
+                                        Age : {{dataSource.age}}
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="split right">
+                    <div class="centered">
+                        <div class="changes">
+                            <div class="container overflow-hidden">
+
+                                <div class="row">
+                                    <label class="fw-bold change_sample" for="lastname">Lastname</label>
+                                    <input class="form-control" type="text" id="lastname" placeholder="New lastname" />
+                                    <a (click)="changeLastname()"><button class="btn btn-primary button_custom">Change
+                                            lastname</button></a>
+                                </div>
+
+                                <div class="row">
+                                    <label class="fw-bold change_sample" for="firstname">Firstname</label>
+                                    <input class="form-control" type="text" id="firstname" placeholder="New firstname" />
+                                    <a (click)="changeFirstname()"><button class="btn btn-primary button_custom">Change
+                                            firstname</button></a>
+                                </div>
+
+                                <div class="row">
+                                    <label class="fw-bold change_sample" for="password">Password</label>
+                                    <input class="form-control" type="password" id="password"
+                                        placeholder="New password" />
+                                    <a (click)="changePassword()"><button class="btn btn-primary button_custom">Change
+                                            password</button></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </section>
+</body>

@@ -1,0 +1,46 @@
+<app-nav></app-nav>
+
+<section class="vh-100 gradient-custom">
+  <div class="container py-5">
+
+
+    <div class="row d-flex justify-content-center align-items-center ">
+
+      <h1 class="fw-bold text-uppercase title_color">Associations Table</h1>
+
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin-top: 20px">
+
+
+        <ng-container matColumnDef="icon">
+          <th mat-header-cell *matHeaderCellDef class="fw-bold text-uppercase"> Info </th>
+          <td mat-cell *matCellDef="let asso">
+            <div *ngIf="asso!=null">
+              <img class="image" src="./../../assets/info.png" alt="no picture" style="width: 30px;" alt="logo"
+                (click)="goToAssoForm(asso.id)">
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="fw-bold text-uppercase"> Association ID </th>
+          <td mat-cell *matCellDef="let association"> {{association.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="fw-bold text-uppercase"> Association name </th>
+          <td mat-cell *matCellDef="let association"> {{association.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bin">
+          <th mat-header-cell *matHeaderCellDef class="fw-bold text-uppercase"> Delete </th>
+          <td mat-cell *matCellDef="let association"> <img class="image" src="./../../assets/fichier-bin.png"
+              alt="no picture" style="width: 40px;" alt="logo" (click)="deleteAssociation(association.id)"></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+  </div>
