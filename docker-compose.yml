@@ -1,20 +1,21 @@
 version: '3.8'
 
 services:
-  
+
   api:
-      build: ./app
-      networks:
-        - app-network
+    build: ./app
+    networks:
+      - app-network
 
   front:
-    build: #./front
+    build:
+      #./front
       context: front
       target: prod
     restart: unless-stopped
     networks:
       - app-network
-   
+
   nginx:
     image: nginx:stable-alpine
     depends_on:
@@ -27,5 +28,5 @@ services:
     networks:
       - app-network
 
-networks :
+networks:
   app-network:
