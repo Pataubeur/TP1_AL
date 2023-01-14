@@ -24,14 +24,13 @@ export class UsersListComponent implements OnInit {
   dataSource = [];
   
   ngOnInit(): void {
-    const resquest: Observable<any> = this.http.get('http://localhost:3000/users', { observe: 'response' });
-    lastValueFrom(resquest).then(response => {
-      this.dataSource = response.body;
+    const resquest= this.api.get({endpoint:'/users'}).then(response => {
+      this.dataSource = response;
     });
   }
 
   goToUserForm(id: number) : void {
-    console.log("id" + id)
+    //console.log("id" + id)
     this.tokenStorageService.saveClickedUser(id.toString());
     this.router.navigateByUrl('/user-form');
   }

@@ -13,11 +13,15 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'mydatabase.db',
+      type: 'postgres',
+      port: 5432,
+      host: 'db',
+      username: 'user',
+      password: 'secr3t',
+      database: 'db',
       entities: [
         User,
-        Association,
+        Association
       ],
       synchronize: true,
       }),
@@ -26,3 +30,15 @@ import { AuthModule } from './auth/auth.module';
   providers: [AppService],
 })
 export class AppModule {}
+
+/**
+ *     TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'mydatabase.db',
+      entities: [
+        User,
+        Association,
+      ],
+      synchronize: true,
+      }),
+ */

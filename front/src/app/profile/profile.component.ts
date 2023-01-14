@@ -21,9 +21,8 @@ export class ProfileComponent implements OnInit{
   dataSource: any = null;
 
   ngOnInit() : void {
-    const resquest: Observable<any> = this.http.get(('http://localhost:3000/users/').concat(this.username), { observe: 'response' });
-    lastValueFrom(resquest).then(response => {
-      this.dataSource = response.body;
+    const resquest = this.api.get({endpoint: ('/users/').concat(this.username)} ).then(response => {
+      this.dataSource = response;
     });
   }
 

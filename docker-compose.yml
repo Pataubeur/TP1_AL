@@ -2,10 +2,36 @@ version: '3.8'
 
 services:
 
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    volumes: 
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secr3t
+      - POSTGRES_DB=db
+
+  #pgadmin:
+  #  image: dpage/pgadmin4
+  #  restart: always
+  #  environment:
+  #    - PGADMIN_DEFAULT_EMAIL=${USER}
+  #    - PGADMIN_DEFAULT_PASSWORD=${PASSWORD}
+
+  # Cuibler le backend pas app !
+  # api = backend
+
+
   api:
-    build: ./app
-    networks:
-      - app-network
+    container_name: api
+    restart: always
+    build:
+     context: app
+     target: prod
+    depends_on:
+      - db
 
   front:
     build:
@@ -13,8 +39,8 @@ services:
       context: front
       target: prod
     restart: unless-stopped
-    networks:
-      - app-network
+    depends_on:
+     - api
 
   nginx:
     image: nginx:stable-alpine
@@ -23,10 +49,10 @@ services:
       - front
     ports:
       - "80:80"
+      #- "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-network
 
-networks:
-  app-network:
+
+volumes:
+  db:

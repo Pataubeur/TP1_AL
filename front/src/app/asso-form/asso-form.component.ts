@@ -26,9 +26,8 @@ export class AssoFormComponent {
 
 
   ngOnInit() : void {
-    const resquestAsso: Observable<any> = this.http.get(('http://localhost:3000/associations/').concat(this.username), { observe: 'response' });
-    lastValueFrom(resquestAsso).then(response => {
-      this.dataSourceAsso = response.body;
+    this.api.get({endpoint : ('/associations/').concat(this.username) }).then(response => {
+      this.dataSourceAsso = response;
       this.userInAssociation = this.dataSourceAsso.users;
     }).catch(response => {
       if(response.status==404) {

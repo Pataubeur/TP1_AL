@@ -24,11 +24,9 @@ export class UserFormComponent implements OnInit {
   userAssociations: string[] = [];
   notExisting : boolean = false;
 
-
   ngOnInit() : void {
-    const resquestUser: Observable<any> = this.http.get(('http://localhost:3000/users/').concat(this.username), { observe: 'response' });
-    lastValueFrom(resquestUser).then(response => {
-      this.dataSourceUser = response.body;
+    const resquestUser= this.api.get({endpoint : ('/users/').concat(this.username)}).then(response => {
+      this.dataSourceUser = response;
     }).catch(response => {
       if(response.status==404) {
         this.notExisting = true
@@ -36,22 +34,16 @@ export class UserFormComponent implements OnInit {
       }
     });
     let dataSourceAssociation : any =  null;
-    const resquestAssociation: Observable<any> = this.http.get(('http://localhost:3000/associations/'), { observe: 'response' });
-    lastValueFrom(resquestAssociation).then(response => {
-      dataSourceAssociation = response.body;
+    const resquestAssociation= this.api.get({endpoint : ('/associations')}).then(response => {
+      dataSourceAssociation = response;
       for(let i = 0 ; i < dataSourceAssociation.length ; i++) {
-        //console.log(dataSourceAssociation[i].users[0].id);
         for(let j = 0 ; j < dataSourceAssociation[i].users.length ; j++) {
-
           if(dataSourceAssociation[i].users[j].id === +(this.username)) {
             this.userAssociations.push(dataSourceAssociation[i].name);
           }
-
         }
       }
       console.log(this.userAssociations);
-      
     });
   }
-
 }

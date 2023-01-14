@@ -24,8 +24,9 @@ export class AssosListComponent implements OnInit {
   dataSource = [];
 
   ngOnInit() : void {
-    const resquest: Observable<any> = this.http.get('http://localhost:3000/associations', { observe: 'response' });
-    lastValueFrom(resquest).then(response => this.dataSource = response.body);
+
+
+    const resquest=this.api.get({endpoint: '/associations'}).then(response => this.dataSource = response);
   }
 
   goToAssoForm(id: number) : void {
@@ -40,3 +41,9 @@ export class AssosListComponent implements OnInit {
   }
 
 }
+
+/**
+ *     const resquest:= this.http.get('http://localhost:3000/associations', { observe: 'response' });
+    lastValueFrom(resquest).then(response => this.dataSource = response.body);
+  }
+ */

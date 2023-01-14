@@ -1,4 +1,4 @@
-# BACKEND
+# Frontend
 
 FROM node:19 as build
 

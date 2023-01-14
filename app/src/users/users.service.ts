@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap, OnModuleInit } from '@nestjs/common';
 import{ User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
@@ -6,7 +6,16 @@ import passport from 'passport';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnApplicationBootstrap {
+
+    async onApplicationBootstrap() {
+        let user= await this.getById(1);
+        if (user==null || user==undefined){
+            this.create("admin", "admin", 0, "admin");
+        }
+        console.log(this.getAll());
+
+    }
 
     constructor(
             @InjectRepository(User)
@@ -18,7 +27,7 @@ export class UsersService {
    //}
 
     public async getAll(): Promise<User[]> {
-        return this.repository.find();
+        return await this.repository.find();
     }
 
     public async getById(idToFind: number): Promise<User> {
