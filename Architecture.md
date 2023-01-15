@@ -22,7 +22,7 @@ A la racine du projet lancer le `docker-compose.yml` en faisant `docker-compose 
 |:----------:|:-------------:|:-----:|
 | Frontend |  `http://localhost/` | 1 & admin |
 | Backend |    `http://localhost/api`   |    |
-| RabbitMQs | `http://localhost/15672` |  username & password |
+| RabbitMQ | `http://localhost/15672` |  username & password |
 | MailDev | `http://localhost:1080` |     |
 | Quarkus  | `http://localhost:8080` |  (Indication pour lancer Quarkus en bas) |
 
@@ -48,11 +48,7 @@ Voici le diagramme d'architecture qui en résulte :
 ## II. Mise en Docker du projet Web
 
 ### a. Docker du front et du back
-Dans un premier temps nous avons dockerisé notre projet Web sur le projet d'AL :
-- Le projet Web n'était qu'à son début lorsque nous avons commencé le TP d'AL ce qui nous a fortement freiné (surtout qu'il s'agissait de notre premier projet de Web).
-- D'autre part, beaucoup de configurations sont possibles sur le Web et ne sont pas vraiment claires.
-- Enfin les consignes ont été données au fur et à mesure, à notre avis le projet était trop long et complexe pour le temps en TP que nous avions.
- *Backend* et *Frontend* en utilisant un fichier *docker-compose.yml* dans le but d'automatiser leur lancement.
+Dans un premier temps nous avons dockerisé notre projet Web (*Backend* et *Frontend*) en utilisant un fichier *docker-compose.yml* dans le but d'automatiser leur lancement.
 
 Nous avons donc créé deux services : *api* (pour le *Backend*) et *front* (pour *Frontend*) ciblant des Dockerfiles localisés dans les dossiers de notre projet web.
 
@@ -66,7 +62,7 @@ Les Dockerfiles sont des fichiers de configuration que Docker va lancer ; ils pe
 
 ### b. Base de données
 
-Concernant la base de données, nous avons importé une image Docker de Postgres sous un service nommé *bd*.
+Concernant la base de données, nous avons importé une image Docker Postgres sous un service nommé *bd*.
 
 Il a fallu spécifier au *Backend* comment l'utiliser dans le `app.modules.ts` : 
 ```TypeScript
@@ -81,36 +77,25 @@ TypeOrmModule.forRoot({
 
 ### c. Reverse Proxy : Nginx
 
- Nginx est un serveur Web open-source et joue le rôle de reverse proxy ; c'est-à-dire qu'il va intercepter les requêtes avant de les renvoyer au front. Dans notre cas, cela permet de ne pas exposer les ports du *Backend* et du *Frontend* et de passer par le port *80* de Nginx.
+ **Nginx** est un serveur Web open-source et joue le rôle de reverse proxy ; c'est-à-dire qu'il va intercepter les requêtes avant de les renvoyer au front. Dans notre cas, cela permet de ne pas exposer les ports du *Backend* et du *Frontend* et de passer par le port *80* de Nginx.
 
-Une nouvelle fois nous avons pris une image Docker et importer en tant que service dans notre `docker-compose.yml` :
-
-Remarques sur le projet d'AL :
-- Le projet Web n'était qu'à son début lorsque nous avons commencé le TP d'AL ce qui nous a fortement freiné (surtout qu'il s'agissait de notre premier projet de Web).
-- D'autre part, beaucoup de configurations sont possibles sur le Web et ne sont pas vraiment claires.
-- Enfin les consignes ont été données au fur et à mesure, à notre avis le projet était trop long et complexe pour le temps en TP que nous avions.
-
+Une nouvelle fois nous avons pris une image Docker et importé en tant que service dans notre `docker-compose.yml` :
 - **depends_on** : permet de lier le service à d'autre service ; ici on lie nginx au service du *front* et du *back*,
 - **ports** : on ouvre les ports de Nginx (*80*) afin d'y avoir accès via le *localhost*,
 - **volumes** : permet d'jouter un configuration au reverse proxy Nginx, ici de pouvoir déporter la communication de notre projet au port *80*.
 
-> - A partir de cette étape nous nous sommes rendus compte de plusieurs problèmes dans notre *Backend* ce qui nous a obliger à chercher et à demander de l'aide à nos camarades.
-> - Cela nous a fait perdre énormément de temps puisque sans cette pârtie opérationnelle, impossible de continuer.
-> - Une fois les modifications faites nous avons eu accès à notre projet comme en local via le port de Nginx avec une base de donnée Posgres.
+> - A partir de cette étape nous nous sommes rendus compte de plusieurs problèmes dans notre *Backend* ce qui nous a obligé à demander de l'aide à nos camarades et à corriger.
+> - Cela nous a fait perdre énormément de temps puisque sans cette partie opérationnelle, impossible de continuer.
+> - Une fois les modifications faites nous avons eu accès à notre projet comme précédement en local via le port de Nginx avec une base de donnée Posgres.
 
 
 ## III. Envoi de mail
 
-Il nous était demandé de lier notre projet Web sur le projet d'AL :
-- Le projet Web n'était qu'à son début lorsque nous avons commencé le TP d'AL ce qui nous a fortement freiné (surtout qu'il s'agissait de notre premier projet de Web).
-- D'autre part, beaucoup de configurations sont possibles sur le Web et ne sont pas vraiment claires.
-- Enfin les consignes ont été données au fur et à mesure, à notre avis le projet était trop long et complexe pour le temps en TP que nous avions.
-
-c un système de mail automatique en utilisant Quarkus et RabbitMQ.
+Il nous était demandé de lier notre projet Web sur le projet d'AL via un système de mail automatique en utilisant Quarkus et RabbitMQ.
 
 **Quarkus** est un module Java permettant (entre autre) de créer un système d'envoi de mail : c'est cette fonctionnalité que nous utiliserons.
 
-**RabbitMQ** est un message broker c'est-à-dire une sorte de transporteur entre un *publisher* et un *consumer*/ Concrètement nous l'avons utilisé comme une passerelle entre notre Quarkus et notre projet Web.
+**RabbitMQ** est un message broker c'est-à-dire une sorte de transporteur entre un *publisher* et un *consumer*. Concrètement nous l'avons utilisé comme une passerelle entre notre Quarkus et notre projet Web.
 
 ### a. RabbitMQ
 
@@ -135,6 +120,8 @@ Nous avons implémenté un fichier `quarkus-mailer/src/main/java/org/acme/MailRe
 ```
 
 D'autre part, il a fallu configurer quarkus via le fichier `resources/application.properties`. C'est ici qu'il faut écrire les données nécessaires à la connection de RabbitMQ à Quarkus.
+
+
 Dans ce fichier deux configurations sont possibles : 
 - la première permet l'envoi de mails via Gmail : néanmoins il faut une autorisation spécifique du compte Google qui doit envoyer mail
 - la seconde permet l'envoi de mails simplement via un MailDev
@@ -156,7 +143,7 @@ Malgré le fait que nous n'avons pas vraiment atteint les objectifs du TP, nous 
 
 D'autre part, même si nous ne l'avons pas fait :
 - un mode *developpement* est intéressant pour effectuer des modifications sans avoir à rebuild les dockers constamment,
--  à l'inverse un mode *production* permet de présenter notre projet au monde tout en cachant les ports.
+- à l'inverse un mode *production* permet de présenter notre projet au monde tout en cachant les ports.
 
 Remarques sur le projet d'AL :
 - Le projet Web n'était qu'à son début lorsque nous avons commencé le TP d'AL ce qui nous a fortement freiné (surtout qu'il s'agissait de notre premier projet de Web).
