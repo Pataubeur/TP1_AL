@@ -31,7 +31,10 @@ export class LoginComponent {
         this.notLogged = false;
       }
     });
-    
   }
+
+  sendCredential(): void {
+  }
+
 
 }
