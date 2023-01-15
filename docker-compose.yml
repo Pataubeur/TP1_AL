@@ -6,7 +6,7 @@ services:
     container_name: db
     image: postgres
     restart: always
-    volumes: 
+    volumes:
       - ./db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=user
@@ -28,19 +28,18 @@ services:
     container_name: api
     restart: always
     build:
-     context: app
-     target: prod
+      context: app
+      target: prod
     depends_on:
       - db
 
   front:
     build:
-      #./front
       context: front
       target: prod
     restart: unless-stopped
     depends_on:
-     - api
+      - api
 
   nginx:
     image: nginx:stable-alpine
@@ -49,10 +48,25 @@ services:
       - front
     ports:
       - "80:80"
-      #- "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    restart: always
+    environment:
+      - "RABBITMQ_DEFAULT_PASS=password"
+      - "RABBITMQ_DEFAULT_USER=username"
+    ports:
+      - 15672:15672
+      - 5672:5672
+  
+  smtp:
+    image: maildev/maildev
+    ports:  
+      - "1080:1080"
+      - "1025:1025"
 
 volumes:
   db:
