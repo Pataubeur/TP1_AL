@@ -15,7 +15,22 @@ Nous avions pour but final de transformer notre projet WEB (frontend et backend)
 - La communication entre le *Backend* et RabbitMQ n'a pas pu être établie.
 
 **Lancer le projet** :
- 
+
+A la racine du projet lancer le `docker-compose.yml` en faisant `docker-compose up -d`, cela donne accès à : 
+
+| Services   |   Accès   |  Credentials |
+|:----------:|:-------------:|:-----:|
+| Frontend |  `http://localhost/` | 1 & admin |
+| Backend |    `http://localhost/api`   |    |
+| RabbitMQs | `http://localhost/15672` |  username & password |
+| MailDev | `http://localhost:1080` |     |
+| Quarkus  | `http://localhost:8080` |  (Indication pour lancer Quarkus en bas) |
+
+Pour lancer Quarkus: 
+- `cd quarkus-mailer` 
+- puis `mvn quarkus` 
+- envoyer un mail à MailDev : `http://localhost:8080/mail`
+
 
 Voici le diagramme d'architecture qui en résulte : 
 
