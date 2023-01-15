@@ -13,17 +13,6 @@ services:
       - POSTGRES_PASSWORD=secr3t
       - POSTGRES_DB=db
 
-  #pgadmin:
-  #  image: dpage/pgadmin4
-  #  restart: always
-  #  environment:
-  #    - PGADMIN_DEFAULT_EMAIL=${USER}
-  #    - PGADMIN_DEFAULT_PASSWORD=${PASSWORD}
-
-  # Cuibler le backend pas app !
-  # api = backend
-
-
   api:
     container_name: api
     restart: always
@@ -67,8 +56,6 @@ services:
     ports:  
       - "1080:1080"
       - "1025:1025"
-
-      
 
 volumes:
   db:

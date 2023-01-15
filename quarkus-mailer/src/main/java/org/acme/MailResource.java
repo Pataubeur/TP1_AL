@@ -22,9 +22,9 @@ public class MailResource {
     //@Blocking
     public Response sendEmail() {
         mailer.send(Mail.withText(
-                "arthur.allain35310@gmail.com",
+                "quarkus@mail.io",
                 "Réussite",
-                "Quaarkus de mes deux"));
+                "Quarkus via RabbitMQ : Good !"));
         return Response.ok().build();
     }
 
