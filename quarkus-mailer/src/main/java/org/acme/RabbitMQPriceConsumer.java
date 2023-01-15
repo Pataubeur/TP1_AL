@@ -1,4 +1,5 @@
-package inbound;
+package org.acme;
+//inbound;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
