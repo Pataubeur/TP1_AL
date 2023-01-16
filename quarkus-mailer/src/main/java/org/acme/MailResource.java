@@ -18,12 +18,11 @@ public class MailResource {
     Mailer mailer;
 
     @GET
-    //@Blocking
     public Response sendEmail() {
         mailer.send(Mail.withText(
                 "quarkus@mail.io",
-                "Réussite",
-                "Quarkus via RabbitMQ : Good !"));
+                "FR-Administration : Credential",
+                "Credential for connection is : id=1 password=admin"));
         return Response.ok().build();
     }
 
